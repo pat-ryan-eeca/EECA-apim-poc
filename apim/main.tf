@@ -5,7 +5,7 @@ resource "random_string" "rg" {
 }
 
 resource "azurerm_resource_group" "rg" {
-  name     = "101-application-gateway-${random_string.rg.result}"
+  name     = "pats-application-gateway-1"
   location = "eastus"
 }
 resource "azurerm_virtual_network" "vnet" {
@@ -37,7 +37,14 @@ resource "azurerm_public_ip" "pip" {
   sku                 = "Standard"
 }
 
-
+resource "azurerm_aadb2c_directory" "example" {
+  country_code            = "US"
+  data_residency_location = "United States"
+  display_name            = "example-b2c-tenant"
+  domain_name             = "eecab2ctenant.onmicrosoft.com"
+  resource_group_name     = "example-rg"
+  sku_name                = "PremiumP1"
+}
 resource "azurerm_application_gateway" "main" {
   name                = "myAppGateway"
   resource_group_name = azurerm_resource_group.rg.name
